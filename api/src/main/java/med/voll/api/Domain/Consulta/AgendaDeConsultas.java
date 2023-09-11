@@ -1,6 +1,7 @@
 package med.voll.api.Domain.Consulta;
 
 import med.voll.api.Domain.Consulta.Validacoes.agendamento.IValidacaoAgendamentoConsultas;
+import med.voll.api.Domain.Consulta.Validacoes.cancelamento.IValidacaoCancelamento;
 import med.voll.api.Domain.Medico.Medico;
 import med.voll.api.Domain.Medico.MedicoRepository;
 import med.voll.api.Domain.Paciente.PacienteRepository;
@@ -22,6 +23,8 @@ public class AgendaDeConsultas {
 
     @Autowired
     List<IValidacaoAgendamentoConsultas> validacoes;
+
+    List<IValidacaoCancelamento> validacoesCancelamento;
 
     public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
         if (!pacienteRepository.existsById(dados.idPaciente())) {
@@ -56,6 +59,7 @@ public class AgendaDeConsultas {
 
     public void cancelar(DadosCancelamentoConsulta dados) {
         var consulta = consultaRepository.getReferenceById(dados.id());
+        validacoesCancelamento.forEach(v -> v.validar(dados));
         consulta.cancelar(dados.motivo());
     }
 }
