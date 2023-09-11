@@ -10,6 +10,6 @@ import org.hibernate.validator.constraints.br.CPF;
 public record DadosCadastradosPaciente(@NotBlank String nome,
                                        @NotBlank @Email String email,
                                        @NotBlank String telefone,
-                                       @NotBlank @CPF String cpf,
+                                       @NotBlank String cpf,
                                        @NotNull @Valid DadosEndereco endereco) {
 }

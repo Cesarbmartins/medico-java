@@ -1,6 +1,7 @@
 package med.voll.api.Controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.api.Domain.Medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/medicos")
+@SecurityRequirement(name = "bearer-key")
 public class MedicoController {
 
     @Autowired
@@ -25,8 +27,8 @@ public class MedicoController {
     //Modos de ordenação e paginação
     @GetMapping
     public ResponseEntity<Page<DadosListagemMedico>> listar(@PageableDefault(size = 20, sort ={"nome"}) Pageable pageable){
-        var page = medicoRepository.findAllByAtivoTrue(pageable).map(DadosListagemMedico :: new);
-        return ResponseEntity.ok(page);
+            var page = medicoRepository.findAllByAtivoTrue(pageable).map(DadosListagemMedico :: new);
+            return ResponseEntity.ok(page);
     }
 
     @PostMapping
